@@ -12,10 +12,16 @@ class Oferta extends Model
     protected $fillable = [
         'titulo',
         'descripcion',
-        'part_time',
-        'full_time',
+
         'salario',
         'ubicacion',
         'fecha_vencimiento',
+        'user_id',
     ];
+
+    // Definir la relación con postulaciones
+    public function postulaciones()
+    {
+        return $this->hasMany(Postulacion::class);
+    }
 }

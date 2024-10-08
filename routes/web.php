@@ -37,3 +37,6 @@ Route::resource('usuarios', UsuarioController::class)->names([
 Route::resource('ofertas', OfertaController::class);
 Route::post('ofertas/{id}/postularse', [OfertaController::class, 'postularse'])->name('postularse');
 Route::get('mis-postulaciones', [OfertaController::class, 'misPostulaciones'])->name('mis-postulaciones');
+Route::get('gestionar-postulaciones', [OfertaController::class, 'gestionarPostulaciones'])->name('gestionar-postulaciones');
+Route::patch('postulaciones/{id}/actualizar-estado', [OfertaController::class, 'actualizarEstado'])->name('postulaciones.actualizar-estado');
+

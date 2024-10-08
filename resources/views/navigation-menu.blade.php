@@ -51,8 +51,17 @@
                      <x-nav-link href="{{ route('mis-postulaciones') }}" :active="request()->routeIs('mis-postulaciones')">
                         {{ __('Mis Postulaciones') }}
                     </x-nav-link>
-               </div>
-               @endrole
+                </div>
+                @endrole
+
+                @role('empresa')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                     <x-nav-link href="{{ route('gestionar-postulaciones') }}" :active="request()->routeIs('gestionar-postulaciones')">
+                        {{ __('Gestionar Postulaciones') }}
+                     </x-nav-link>
+                </div>
+                @endrole
+
 
             </div>
 

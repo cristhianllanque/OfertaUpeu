@@ -40,7 +40,17 @@ class OfertaController extends Controller
             'fecha_vencimiento' => 'required|date',
         ]);
 
-        Oferta::create($request->all());
+        // Asignar el user_id del usuario autenticado al crear la oferta
+        Oferta::create([
+            'titulo' => $request->titulo,
+            'descripcion' => $request->descripcion,
+            'part_time' => $request->part_time,
+            'full_time' => $request->full_time,
+            'salario' => $request->salario,
+            'ubicacion' => $request->ubicacion,
+            'fecha_vencimiento' => $request->fecha_vencimiento,
+            'user_id' => auth()->id(), // Aquí se asigna el user_id del usuario autenticado
+        ]);
 
         return redirect()->route('ofertas.index')->with('success', 'Oferta creada exitosamente.');
     }
@@ -127,23 +137,24 @@ class OfertaController extends Controller
         return view('ofertas.mis-postulaciones', compact('postulaciones'));
     }
 
-    public function verPostulaciones($oferta_id)
+    /**
+     * Mostrar las gestionarPostulaciones.
+     */
+    public function gestionarPostulaciones()
     {
-        $oferta = Oferta::with('postulaciones.user')->findOrFail($oferta_id);
-        return view('ofertas.postulaciones', compact('oferta'));
+        $ofertas = Oferta::where('user_id', auth()->id())->with('postulaciones.user')->get(); // Obtener las ofertas de la empresa con sus postulaciones
+        return view('ofertas.gestionar-postulaciones', compact('ofertas'));
     }
 
-    public function postulacionesRecibidas()
+    /**
+     * Actualizar el estado de una postulación.
+     */
+    public function actualizarEstado(Request $request, $id)
     {
-        // Obtener las ofertas creadas por la empresa autenticada
-        $ofertas = Oferta::where('user_id', auth()->id())->pluck('id');
-    
-        // Obtener las postulaciones de esas ofertas
-        $postulaciones = Postulacion::whereIn('oferta_id', $ofertas)->with('user', 'oferta')->get();
-    
-        // Retornar la vista con las postulaciones
-        return view('ofertas.postulaciones', compact('postulaciones'));
+        $postulacion = Postulacion::findOrFail($id);
+        $postulacion->estado = $request->input('estado');
+        $postulacion->save();
+
+        return redirect()->route('gestionar-postulaciones')->with('success', 'Estado actualizado correctamente.');
     }
-
-
 }
