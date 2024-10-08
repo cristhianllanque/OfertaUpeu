@@ -1,4 +1,3 @@
-<!-- resources/views/ofertas/mis-postulaciones.blade.php -->
 <x-app-layout>
     <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,6 +19,7 @@
                                 <th class="px-4 py-3">Salario</th>
                                 <th class="px-4 py-3">Ubicación</th>
                                 <th class="px-4 py-3">Fecha de Vencimiento</th>
+                                <th class="px-4 py-3">Estado</th> <!-- Nueva columna para el estado -->
                             </tr>
                         </thead>
                         <tbody>
@@ -32,6 +32,7 @@
                                     <td class="border px-4 py-2 text-gray-600">{{ $postulacion->oferta->salario }} USD</td>
                                     <td class="border px-4 py-2 text-gray-600">{{ $postulacion->oferta->ubicacion }}</td>
                                     <td class="border px-4 py-2 text-gray-600">{{ $postulacion->oferta->fecha_vencimiento }}</td>
+                                    <td class="border px-4 py-2 text-gray-600">{{ ucfirst($postulacion->estado) }}</td> <!-- Mostrar el estado -->
                                 </tr>
                             @endforeach
                         </tbody>

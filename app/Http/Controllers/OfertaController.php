@@ -126,4 +126,24 @@ class OfertaController extends Controller
         $postulaciones = Postulacion::where('user_id', auth()->id())->with('oferta')->get();
         return view('ofertas.mis-postulaciones', compact('postulaciones'));
     }
+
+    public function verPostulaciones($oferta_id)
+    {
+        $oferta = Oferta::with('postulaciones.user')->findOrFail($oferta_id);
+        return view('ofertas.postulaciones', compact('oferta'));
+    }
+
+    public function postulacionesRecibidas()
+    {
+        // Obtener las ofertas creadas por la empresa autenticada
+        $ofertas = Oferta::where('user_id', auth()->id())->pluck('id');
+    
+        // Obtener las postulaciones de esas ofertas
+        $postulaciones = Postulacion::whereIn('oferta_id', $ofertas)->with('user', 'oferta')->get();
+    
+        // Retornar la vista con las postulaciones
+        return view('ofertas.postulaciones', compact('postulaciones'));
+    }
+
+
 }
