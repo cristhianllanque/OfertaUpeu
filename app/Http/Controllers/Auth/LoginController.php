@@ -24,8 +24,8 @@ class LoginController extends Controller
                 Auth::logout();
 
                 //crea esa ruta de approval.wait en web y descomentalo, despues crea ese archivo
-                return redirect()->route('login')->with('message', 'Tu cuenta está en espera de aprobación.');
-                //return redirect()->route('approval.wait')->with('message', 'Tu cuenta está en espera de aprobación.');
+                //return redirect()->route('login')->with('message', 'Tu cuenta está en espera de aprobación.');
+                return redirect()->route('approval.wait')->with('message', 'Tu cuenta está en espera de aprobación.');
 
             }
 

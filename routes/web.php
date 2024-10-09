@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfertaController;
 
+
+
 // Ruta de la página de inicio (home)
 Route::get('/', function () {
     return view('welcome'); // Asegúrate de tener una vista llamada 'welcome'
@@ -14,7 +16,9 @@ Route::get('/', function () {
 // Ruta de inicio de sesión con método POST para manejar el formulario
 Route::post('login', [LoginController::class, 'login'])->name('login.post');
 
-
+Route::get('/waiting-for-approval', function () {
+    return view('auth.waiting_for_approval');
+})->name('approval.wait');
 
 // Ruta para el dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
