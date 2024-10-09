@@ -1,53 +1,58 @@
 <!-- resources/views/auth/waiting_for_approval.blade.php -->
 
 <x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-blue-50">
-        <div class="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto animate_animated animate_fadeIn">
-            <div class="flex flex-col items-center">
-                <!-- Contenedor para la animación de Lottie en la página -->
-                <div id="lottie-cat" class="w-60 h-60 mb-4"></div>
+    <!-- Sección principal con video de fondo -->
+    <div class="relative min-h-screen flex items-center justify-center bg-gray-100">
+        <!-- Video de fondo -->
+        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+            <source src="{{ asset('videos/video2.mp4') }}" type="video/mp4">
+        </video>
 
-                <!-- Título con animación suave -->
-                <h1 class="text-2xl font-semibold text-gray-800 mb-2 animate_animated animatepulse animate_infinite">Esperando Aprobación</h1>
+        <!-- Capa de superposición semitransparente para mejorar la legibilidad -->
+        <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
 
-                <!-- Descripción con un mensaje amable -->
-                <p class="text-gray-600 text-center mb-4 animate_animated animatefadeInUp animate_delay-1s">
-                    Su cuenta está en espera de aprobación por un administrador. Recibirá un correo electrónico cuando su cuenta sea aprobada.
-                </p>
+        <!-- Contenido principal con el segundo video -->
+        <div class="relative z-20 bg-white shadow-lg rounded-lg p-10 max-w-md mx-auto text-center flex flex-col space-y-6">
+            <!-- Mensaje principal de espera -->
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">Tu Cuenta Está en Revisión</h1>
 
-                <!-- Botón con animación de hover -->
-                <button
-                    class="mt-4 px-5 py-2 text-white bg-blue-500 rounded-full shadow-md hover:bg-blue-600 hover:shadow-lg transition duration-300"
-                    onclick="window.location.href='/'"> <!-- Añadimos el evento onclick para redirigir a la página principal -->
-                    Página Principal
-                </button>
+            <p class="text-gray-600 text-lg mb-6">Gracias por registrarte. Un administrador está revisando tu cuenta y pronto recibirás una notificación por correo electrónico.</p>
+
+            <!-- Barra de progreso simulada -->
+            <div class="relative pt-1">
+                <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+                    <div class="animate__animated animate__slideInLeft shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 w-3/4"></div>
+                </div>
+                <p class="text-sm text-gray-500">Procesando... 75%</p>
             </div>
+
+            <!-- Iconos animados de espera -->
+            <div class="flex justify-center space-x-6 my-4">
+                <i class="fas fa-hourglass-half fa-2x text-yellow-500 animate__animated animate__flash animate__infinite"></i>
+                <i class="fas fa-envelope-open-text fa-2x text-green-500 animate__animated animate__pulse animate__infinite"></i>
+                <i class="fas fa-user-check fa-2x text-blue-500 animate__animated animate__bounce animate__infinite"></i>
+            </div>
+
+            <!-- Botón para volver a la página principal -->
+            <button
+                class="mt-4 px-6 py-3 text-white bg-blue-500 rounded-full shadow-md hover:bg-blue-600 hover:shadow-xl transition duration-300 ease-in-out"
+                onclick="window.location.href='/'"> <!-- Redirige a la página principal -->
+                Volver a la Página Principal
+            </button>
+
+            <!-- Mensaje adicional de agradecimiento -->
+            <p class="mt-6 text-gray-500">Gracias por tu paciencia y confianza en nuestro sistema.</p>
+        </div>
+
+        <!-- Segundo video en un recuadro al costado derecho -->
+        <div class="absolute right-10 bottom-10 z-20 w-64 h-48 shadow-lg rounded-lg overflow-hidden">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
+            </video>
         </div>
     </div>
 
-    <!-- Scripts para Lottie -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
-    <script>
-        // Inicializar la animación Lottie en la página
-        var animation = lottie.loadAnimation({
-            container: document.getElementById('lottie-cat'), // ID del contenedor donde se reproducirá la animación
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: 'https://lottie.host/7298d7af-083e-4b4c-b753-fe6e44b5ac83/pKswuZiquM.json' // Ruta al archivo JSON de la animación proporcionada
-        });
-
-        // Mostrar SweetAlert con solo texto y sin imagen que se distorsione
-        document.addEventListener('DOMContentLoaded', function () {
-            Swal.fire({
-                title: '¡Solicitud Enviada con Éxito!',
-                text: 'Tu solicitud ha sido enviada al administrador. Gracias por tu paciencia. Recibirás una notificación cuando sea aprobada.',
-                icon: 'success', // Usamos un ícono de éxito en lugar de una imagen
-                confirmButtonText: 'Entendido',
-                customClass: {
-                    popup: 'border-radius-lg' // Estilo personalizado para el popup
-                }
-            });
-        });
-    </script>
+    <!-- Scripts para animaciones -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></script>
 </x-guest-layout>
