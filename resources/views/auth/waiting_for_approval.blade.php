@@ -33,26 +33,41 @@
                 <i class="fas fa-user-check fa-2x text-blue-500 animate__animated animate__bounce animate__infinite"></i>
             </div>
 
-            <!-- Botón para volver a la página principal -->
-            <button
-                class="mt-4 px-6 py-3 text-white bg-blue-500 rounded-full shadow-md hover:bg-blue-600 hover:shadow-xl transition duration-300 ease-in-out"
-                onclick="window.location.href='/'"> <!-- Redirige a la página principal -->
-                Volver a la Página Principal
-            </button>
+            <!-- Botón para volver a la página principal y cerrar sesión -->
+            <div class="mt-4">
+                <!-- Formulario de cierre de sesión -->
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
 
-            <!-- Mensaje adicional de agradecimiento -->
-            <p class="mt-6 text-gray-500">Gracias por tu paciencia y confianza en nuestro sistema.</p>
-        </div>
+                <!-- Botón que ejecuta el cierre de sesión y redirige -->
+                <button
+                    class="px-6 py-3 text-white bg-blue-500 rounded-full shadow-md hover:bg-blue-600 hover:shadow-xl transition duration-300 ease-in-out"
+                    onclick="logoutAndRedirect()">
+                    Volver a la Página Principal
+                </button>
 
-        <!-- Segundo video en un recuadro al costado derecho -->
-        <div class="absolute right-10 bottom-10 z-20 w-64 h-48 shadow-lg rounded-lg overflow-hidden">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover">
-                <source src="{{ asset('videos/video3.mp4') }}" type="video/mp4">
-            </video>
+                <!-- Mensaje adicional de agradecimiento -->
+                <p class="mt-6 text-gray-500">Gracias por tu paciencia y confianza en nuestro sistema.</p>
+            </div>
+
+            <!-- Segundo video en un recuadro al costado derecho -->
+          
         </div>
     </div>
 
     <!-- Scripts para animaciones -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></script>
+    <script>
+        function logoutAndRedirect() {
+            // Enviar el formulario de cierre de sesión
+            document.getElementById('logout-form').submit();
+
+            // Retrasar la redirección a la página principal para que el cierre de sesión se ejecute primero
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 1000); // Espera 1 segundo antes de redirigir
+        }
+    </script>
 </x-guest-layout>
