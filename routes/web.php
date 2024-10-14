@@ -44,3 +44,5 @@ Route::get('mis-postulaciones', [OfertaController::class, 'misPostulaciones'])->
 Route::get('gestionar-postulaciones', [OfertaController::class, 'gestionarPostulaciones'])->name('gestionar-postulaciones');
 Route::patch('postulaciones/{id}/actualizar-estado', [OfertaController::class, 'actualizarEstado'])->name('postulaciones.actualizar-estado');
 
+Route::get('postulantes/{id}', [OfertaController::class, 'verPostulante'])->name('postulantes.ver');
+

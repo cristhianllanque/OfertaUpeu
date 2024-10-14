@@ -138,7 +138,7 @@ class OfertaController extends Controller
     }
 
     /**
-     * Mostrar las gestionarPostulaciones.
+     * Mostrar las postulaciones gestionadas por la empresa.
      */
     public function gestionarPostulaciones()
     {
@@ -147,14 +147,33 @@ class OfertaController extends Controller
     }
 
     /**
-     * Actualizar el estado de una postulación.
+     * Actualizar el estado de una postulación y rechazar a los demás postulantes de la oferta.
      */
     public function actualizarEstado(Request $request, $id)
     {
         $postulacion = Postulacion::findOrFail($id);
-        $postulacion->estado = $request->input('estado');
+        $estado = $request->input('estado');
+
+        // Si se acepta una postulación, rechazar automáticamente a los demás postulantes de la misma oferta
+        if ($estado === 'aceptado') {
+            Postulacion::where('oferta_id', $postulacion->oferta_id)
+                        ->where('id', '!=', $postulacion->id) // Excluir la postulación aceptada
+                        ->update(['estado' => 'rechazado']);
+        }
+
+        // Actualizar el estado del postulante seleccionado
+        $postulacion->estado = $estado;
         $postulacion->save();
 
         return redirect()->route('gestionar-postulaciones')->with('success', 'Estado actualizado correctamente.');
     }
+
+    public function verPostulante($id)
+    {
+        $postulacion = Postulacion::with('user','oferta')->findOrFail($id);
+
+        //Retorna una vista con los datos del posulante
+        return view('ofertas.ver-postulante', compact('postulacion'));
+    }
+
 }

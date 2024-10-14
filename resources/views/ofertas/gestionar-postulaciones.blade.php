@@ -12,7 +12,7 @@
     @if(session('alert'))
         <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 p-4 rounded mt-4 flex items-center justify-center animate-bounce">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-10a1 1 0 112 0v3a1 1 0 01-2 0V8zm1 5a1 1 0 110 2 1 1 0 010-2z" clip-rule="evenodd" />
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 8a1 1 0 012 0v3a1 1 0 01-2 0V8zm1 5a1 1 0 110 2 1 1 0 010-2z" clip-rule="evenodd" />
             </svg>
             <span>{{ session('alert') }}</span>
         </div>
@@ -35,17 +35,34 @@
                             <tr class="bg-blue-100 text-blue-700 text-sm">
                                 <th class="px-2 py-1">Postulante</th>
                                 <th class="px-2 py-1">Estado</th>
+                                <th class="px-2 py-1">CV</th> <!-- Columna para el CV -->
                                 <th class="px-2 py-1">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($oferta->postulaciones as $postulacion)
                                 <tr class="hover:bg-blue-50 transition duration-200">
+                                    <!-- Columna de Postulante con enlace para ver detalles -->
                                     <td class="border px-2 py-1 flex items-center justify-center">
                                         <img class="h-5 w-5 rounded-full mr-2" src="{{ $postulacion->user->profile_photo_url }}" alt="{{ $postulacion->user->name }}">
-                                        <span>{{ $postulacion->user->name }}</span>
+                                        <a href="{{ route('postulantes.ver', $postulacion->id) }}" class="text-blue-500 hover:text-blue-700">{{ $postulacion->user->name }}</a>
                                     </td>
-                                    <td class="border px-2 py-1 text-gray-600">{{ ucfirst($postulacion->estado) }}</td>
+
+                                    <td class="border px-2 py-1 text-gray-600 {{ $postulacion->estado == 'rechazado' ? 'text-red-500' : '' }}">
+                                        {{ ucfirst($postulacion->estado) }}
+                                    </td>
+
+                                    <!-- Columna para el CV -->
+                                    <td class="border px-2 py-1">
+                                        @if($postulacion->user->archivo_cv)
+                                            <a href="{{ asset('storage/' . $postulacion->user->archivo_cv) }}" target="_blank" class="text-blue-500 hover:text-blue-700">
+                                                Ver CV
+                                            </a>
+                                        @else
+                                            <span class="text-gray-500">No disponible</span>
+                                        @endif
+                                    </td>
+
                                     <td class="border px-2 py-1">
                                         <!-- Formulario para actualizar el estado -->
                                         <form action="{{ route('postulaciones.actualizar-estado', $postulacion->id) }}" method="POST" class="flex justify-center items-center">
