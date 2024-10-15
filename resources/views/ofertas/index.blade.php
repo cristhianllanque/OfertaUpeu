@@ -3,7 +3,6 @@
         <div class="bg-gradient-to-b from-blue-200 to-white shadow-xl overflow-hidden sm:rounded-lg p-6">
             <h1 class="text-3xl font-bold text-gray-700 mb-6">Lista de Ofertas</h1>
 
-            <!-- Mostrar el botón "Crear Oferta" solo para empresas y admins -->
             @role('empresa|admin')
             <div class="mb-6">
                 <a href="{{ route('ofertas.create') }}" class="bg-blue-500 text-white px-5 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center">
@@ -55,7 +54,6 @@
                                 Ver Detalles
                             </a>
 
-                            <!-- Solo mostrar Editar y Eliminar para empresas y admins -->
                             @role('empresa|admin')
                                 <a href="{{ route('ofertas.edit', $oferta->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-700 transition-all duration-300 ease-in-out flex items-center">
                                     <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,7 +62,6 @@
                                     Editar
                                 </a>
 
-                                <!-- Alerta de confirmación para eliminar -->
                                 <form action="{{ route('ofertas.destroy', $oferta->id) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta oferta?');">
                                     @csrf
                                     @method('DELETE')

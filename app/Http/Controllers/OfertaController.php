@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Oferta;
-use App\Models\Postulacion; // Importar el modelo de Postulacion
+use App\Models\Postulacion;
 use Illuminate\Http\Request;
 
 class OfertaController extends Controller
@@ -13,7 +13,13 @@ class OfertaController extends Controller
      */
     public function index()
     {
-        $ofertas = Oferta::all();
+        // Si el usuario tiene el rol de "empresa", solo verá sus propias ofertas.
+        if (auth()->user()->hasRole('empresa')) {
+            $ofertas = Oferta::where('user_id', auth()->id())->get(); // Obtener solo las ofertas creadas por la empresa.
+        } else {
+            $ofertas = Oferta::all(); // Si es admin o cualquier otro rol, verá todas las ofertas.
+        }
+
         return view('ofertas.index', compact('ofertas'));
     }
 
@@ -114,12 +120,10 @@ class OfertaController extends Controller
                                     ->exists();
 
         if ($existePostulacion) {
-            // Si ya está postulado, redirigir con un mensaje de alerta
             return redirect()->route('ofertas.show', $oferta->id)
                              ->with('alert', 'Ya te has postulado a esta oferta.');
         }
 
-        // Guardar la postulación
         Postulacion::create([
             'user_id' => auth()->id(),
             'oferta_id' => $oferta->id,
@@ -170,10 +174,7 @@ class OfertaController extends Controller
 
     public function verPostulante($id)
     {
-        $postulacion = Postulacion::with('user','oferta')->findOrFail($id);
-
-        //Retorna una vista con los datos del posulante
+        $postulacion = Postulacion::with('user', 'oferta')->findOrFail($id);
         return view('ofertas.ver-postulante', compact('postulacion'));
     }
-
 }

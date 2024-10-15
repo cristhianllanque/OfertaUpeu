@@ -5,8 +5,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfertaController;
-
-
+use App\Http\Controllers\PostulacionController;
 
 // Ruta de la página de inicio (home)
 Route::get('/', function () {
@@ -38,11 +37,22 @@ Route::resource('usuarios', UsuarioController::class)->names([
     'destroy' => 'usuarios.destroy',
 ]);
 
+// Rutas para ofertas laborales
 Route::resource('ofertas', OfertaController::class);
 Route::post('ofertas/{id}/postularse', [OfertaController::class, 'postularse'])->name('postularse');
 Route::get('mis-postulaciones', [OfertaController::class, 'misPostulaciones'])->name('mis-postulaciones');
 Route::get('gestionar-postulaciones', [OfertaController::class, 'gestionarPostulaciones'])->name('gestionar-postulaciones');
 Route::patch('postulaciones/{id}/actualizar-estado', [OfertaController::class, 'actualizarEstado'])->name('postulaciones.actualizar-estado');
 
+// Nueva ruta para ver los detalles del postulante
 Route::get('postulantes/{id}', [OfertaController::class, 'verPostulante'])->name('postulantes.ver');
 
+// Nuevas rutas para el controlador de Postulaciones
+Route::delete('/postulaciones/{id}/cancelar', [PostulacionController::class, 'cancelarPostulacion'])->name('postulaciones.cancelar');
+Route::get('/postulaciones', [PostulacionController::class, 'index'])->name('postulaciones.index');
+
+Route::delete('/postulaciones/{id}/cancelar', [PostulacionController::class, 'cancelarPostulacion'])->name('postulaciones.cancelar');
+Route::get('/postulaciones', [PostulacionController::class, 'index'])->name('postulaciones.index');
+
+
+// Fin de las rutas
