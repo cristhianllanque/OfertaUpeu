@@ -1,27 +1,19 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-b from-blue-200 to-white shadow-xl overflow-hidden sm:rounded-lg p-6">
-            <h1 class="text-3xl font-bold text-gray-700 mb-6">Lista de Ofertas</h1>
+        <div class="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-6">Lista de Ofertas</h1>
 
             @role('empresa|admin')
             <div class="mb-6">
-                <a href="{{ route('ofertas.create') }}" class="bg-blue-500 text-white px-5 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center">
-                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
+                <a href="{{ route('ofertas.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Crear Oferta
                 </a>
             </div>
             @endrole
 
             @if (session('success'))
-                <div class="bg-green-500 text-white p-4 rounded mb-4">
-                    <div class="flex items-center">
-                        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>{{ session('success') }}</span>
-                    </div>
+                <div class="bg-green-100 border border-green-400 text-green-700 p-4 rounded mb-4">
+                    {{ session('success') }}
                 </div>
             @endif
 
@@ -31,46 +23,31 @@
                         $hoy = now()->toDateString();
                         $esVencida = $oferta->fecha_vencimiento < $hoy;
                     @endphp
-                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-800">{{ $oferta->titulo }}</h3>
+                    <div class="bg-gray-50 border rounded-lg">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-700">{{ $oferta->titulo }}</h3>
                             <p class="text-gray-600 mt-2">{{ Str::limit($oferta->descripcion, 80) }}</p>
                             <p class="text-gray-600 mt-2"><strong>Salario:</strong> {{ $oferta->salario }}</p>
                             <p class="text-gray-600 mt-2"><strong>Ubicación:</strong> {{ $oferta->ubicacion }}</p>
                             <p class="text-gray-600 mt-2">
                                 <strong>Fecha de Vencimiento:</strong> {{ $oferta->fecha_vencimiento }}
                                 @if($esVencida)
-                                    <span class="text-red-500 ml-2 font-bold">Oferta Vencida</span>
+                                    <span class="text-red-500 ml-2">Oferta Vencida</span>
                                 @else
-                                    <span class="text-green-500 ml-2 font-bold">Vigente</span>
+                                    <span class="text-green-500 ml-2">Vigente</span>
                                 @endif
                             </p>
                         </div>
-                        <div class="p-4 bg-gray-100 flex justify-between items-center">
-                            <a href="{{ route('ofertas.show', $oferta->id) }}" class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-all duration-300 ease-in-out flex items-center">
-                                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Ver Detalles
-                            </a>
+                        <div class="p-4 border-t flex justify-between">
+                            <a href="{{ route('ofertas.show', $oferta->id) }}" class="text-blue-500 hover:underline">Ver Detalles</a>
 
                             @role('empresa|admin')
-                                <a href="{{ route('ofertas.edit', $oferta->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-700 transition-all duration-300 ease-in-out flex items-center">
-                                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4H8m5-4h.01M4 6h16M4 12h16m-7 6h7" />
-                                    </svg>
-                                    Editar
-                                </a>
+                                <a href="{{ route('ofertas.edit', $oferta->id) }}" class="text-yellow-500 hover:underline">Editar</a>
 
-                                <form action="{{ route('ofertas.destroy', $oferta->id) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta oferta?');">
+                                <form action="{{ route('ofertas.destroy', $oferta->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta oferta?');" class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-700 transition-all duration-300 ease-in-out flex items-center">
-                                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        Eliminar
-                                    </button>
+                                    <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
                                 </form>
                             @endrole
                         </div>

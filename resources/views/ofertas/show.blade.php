@@ -52,7 +52,7 @@
 
             <!-- Botón de Postularse (visible solo para postulantes) -->
             @role('postulante')
-            <form action="{{ route('postularse', $oferta->id) }}" method="POST">
+            <form action="{{ route('postularse', $oferta->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas postularte a esta oferta?');">
                 @csrf
                 <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 ease-in-out flex items-center transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
