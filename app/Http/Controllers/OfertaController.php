@@ -15,9 +15,9 @@ class OfertaController extends Controller
     {
         // Si el usuario tiene el rol de "empresa", solo verá sus propias ofertas.
         if (auth()->user()->hasRole('empresa')) {
-            $ofertas = Oferta::where('user_id', auth()->id())->get(); // Obtener solo las ofertas creadas por la empresa.
+            $ofertas = Oferta::where('user_id', auth()->id())->with('creador')->get(); // Obtener solo las ofertas creadas por la empresa.
         } else {
-            $ofertas = Oferta::all(); // Si es admin o cualquier otro rol, verá todas las ofertas.
+            $ofertas = Oferta::with('creador')->get(); // Si es admin o cualquier otro rol, verá todas las ofertas.
         }
 
         return view('ofertas.index', compact('ofertas'));
@@ -39,8 +39,6 @@ class OfertaController extends Controller
         $request->validate([
             'titulo' => 'required',
             'descripcion' => 'required',
-            'part_time' => 'boolean',
-            'full_time' => 'boolean',
             'salario' => 'required|numeric',
             'ubicacion' => 'required',
             'fecha_vencimiento' => 'required|date',
@@ -50,8 +48,6 @@ class OfertaController extends Controller
         Oferta::create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
-            'part_time' => $request->part_time,
-            'full_time' => $request->full_time,
             'salario' => $request->salario,
             'ubicacion' => $request->ubicacion,
             'fecha_vencimiento' => $request->fecha_vencimiento,
@@ -85,8 +81,6 @@ class OfertaController extends Controller
         $request->validate([
             'titulo' => 'required',
             'descripcion' => 'required',
-            'part_time' => 'boolean',
-            'full_time' => 'boolean',
             'salario' => 'required|numeric',
             'ubicacion' => 'required',
             'fecha_vencimiento' => 'required|date',
@@ -172,6 +166,9 @@ class OfertaController extends Controller
         return redirect()->route('gestionar-postulaciones')->with('success', 'Estado actualizado correctamente.');
     }
 
+    /**
+     * Ver el detalle de un postulante.
+     */
     public function verPostulante($id)
     {
         $postulacion = Postulacion::with('user', 'oferta')->findOrFail($id);

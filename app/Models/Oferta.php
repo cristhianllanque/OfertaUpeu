@@ -12,14 +12,19 @@ class Oferta extends Model
     protected $fillable = [
         'titulo',
         'descripcion',
-
         'salario',
         'ubicacion',
         'fecha_vencimiento',
         'user_id',
     ];
 
-    // Definir la relación con postulaciones
+    // Relación con el modelo User (Creador de la oferta)
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Relación con postulaciones
     public function postulaciones()
     {
         return $this->hasMany(Postulacion::class);

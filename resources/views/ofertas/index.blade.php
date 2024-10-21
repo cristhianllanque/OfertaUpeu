@@ -29,6 +29,7 @@
                             <p class="text-gray-600 mt-2">{{ Str::limit($oferta->descripcion, 80) }}</p>
                             <p class="text-gray-600 mt-2"><strong>Salario:</strong> {{ $oferta->salario }}</p>
                             <p class="text-gray-600 mt-2"><strong>Ubicación:</strong> {{ $oferta->ubicacion }}</p>
+                            <p class="text-gray-600 mt-2"><strong>Empresa:</strong> {{ $oferta->creador->name }}</p> <!-- Mostrar el nombre de la empresa -->
                             <p class="text-gray-600 mt-2">
                                 <strong>Fecha de Vencimiento:</strong> {{ $oferta->fecha_vencimiento }}
                                 @if($esVencida)
