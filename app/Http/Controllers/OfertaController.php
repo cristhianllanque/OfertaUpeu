@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Oferta;
 use App\Models\Postulacion;
 use Illuminate\Http\Request;
+use Mpdf\Mpdf; // Asegúrate de que esta línea esté presente
 
 class OfertaController extends Controller
 {
@@ -173,5 +174,19 @@ class OfertaController extends Controller
     {
         $postulacion = Postulacion::with('user', 'oferta')->findOrFail($id);
         return view('ofertas.ver-postulante', compact('postulacion'));
+    }
+
+    /**
+     * Generar el reporte en PDF de la oferta.
+     */
+    public function generarReporte($id)
+    {
+        $oferta = Oferta::with('postulaciones.user')->findOrFail($id); // Carga la oferta con sus postulaciones
+
+        $mpdf = new Mpdf(); // Asegúrate de que esta línea esté presente
+        $html = view('ofertas.reporte', compact('oferta'))->render(); // Renderiza la vista como HTML
+        $mpdf->WriteHTML($html); // Escribe el HTML en el PDF
+
+        return $mpdf->Output('reporte_oferta_' . $oferta->id . '.pdf', 'D'); // Forzar descarga
     }
 }

@@ -11,6 +11,11 @@
                         <p>No te has postulado a ninguna oferta todavía.</p>
                     </div>
                 @else
+                    <div class="mb-4">
+                        <a href="{{ route('postulaciones.reporte') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                            Generar Reporte General
+                        </a>
+                    </div>
                     <table class="table-auto w-full mt-5 bg-gray-50 rounded-lg shadow">
                         <thead class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
                             <tr>

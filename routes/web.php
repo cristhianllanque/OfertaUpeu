@@ -51,8 +51,9 @@ Route::get('postulantes/{id}', [OfertaController::class, 'verPostulante'])->name
 Route::delete('/postulaciones/{id}/cancelar', [PostulacionController::class, 'cancelarPostulacion'])->name('postulaciones.cancelar');
 Route::get('/postulaciones', [PostulacionController::class, 'index'])->name('postulaciones.index');
 
-Route::delete('/postulaciones/{id}/cancelar', [PostulacionController::class, 'cancelarPostulacion'])->name('postulaciones.cancelar');
-Route::get('/postulaciones', [PostulacionController::class, 'index'])->name('postulaciones.index');
+// Rutas para los reportes
+Route::get('ofertas/{id}/reporte', [OfertaController::class, 'generarReporte'])->name('ofertas.reporte');
+Route::get('postulaciones/reporte', [PostulacionController::class, 'reporte'])->name('postulaciones.reporte'); // Mantener solo una ruta para el reporte del postulante
 
-
-// Fin de las rutas
+// Ruta para generar el reporte de postulaciones del usuario
+Route::get('postulaciones/reporte', [PostulacionController::class, 'generarReporte'])->name('postulaciones.reporte');

@@ -55,4 +55,25 @@ class PostulacionController extends Controller
         // Retornar la vista de las postulaciones
         return view('postulaciones.index', compact('postulaciones'));
     }
+
+    /**
+     * Generar el reporte general de las postulaciones del usuario.
+     */
+    public function generarReporte()
+    {
+        // Obtener todas las postulaciones del usuario autenticado
+        $postulaciones = Postulacion::where('user_id', auth()->id())->with('oferta')->get();
+
+        // Verificar si hay postulaciones
+        if ($postulaciones->isEmpty()) {
+            return redirect()->route('postulaciones.index')->with('alert', 'No hay postulaciones para generar un reporte.');
+        }
+
+        // Generar el PDF utilizando mPDF o cualquier otra biblioteca que estés utilizando
+        $mpdf = new \Mpdf\Mpdf(); // Instanciar mPDF
+        $html = view('postulaciones.reporte', compact('postulaciones'))->render(); // Renderizar la vista como HTML
+        $mpdf->WriteHTML($html); // Escribir el HTML en el PDF
+
+        return $mpdf->Output('reporte_postulaciones.pdf', 'D'); // Forzar descarga del PDF
+    }
 }
