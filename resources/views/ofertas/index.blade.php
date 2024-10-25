@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="bg-white shadow-lg overflow-hidden sm:rounded-lg p-6">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Lista de Ofertas</h1>
+            <h1 class="text-2xl font-bold text-gray-800 mb-6 border-b-4 border-blue-500 pb-2">Lista de Ofertas</h1>
 
             @role('empresa|admin')
             <div class="mb-6">
@@ -23,10 +23,13 @@
                         $hoy = now()->toDateString();
                         $esVencida = $oferta->fecha_vencimiento < $hoy;
                     @endphp
-                    <div class="bg-gray-50 border rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-gray-700">{{ $oferta->titulo }}</h3>
+                    <div class="bg-gray-50 border rounded-lg p-4 shadow-lg transition-transform transform hover:scale-105">
+                        <div class="flex items-center mb-4">
+                            <img src="{{ asset('images/default-offer-logo.png') }}" alt="Logo" class="w-16 h-16 rounded-full mr-4"> <!-- Logo por defecto -->
+                            <h3 class="text-lg font-semibold text-gray-700 border-l-4 border-blue-300 pl-2">{{ $oferta->titulo }}</h3>
+                        </div>
                         <p class="text-gray-600 mt-2">{{ Str::limit($oferta->descripcion, 80) }}</p>
-                        <p class="text-gray-600 mt-2"><strong>Salario:</strong> {{ $oferta->salario }}</p>
+                        <p class="text-gray-600 mt-2"><strong>Salario:</strong> {{ number_format($oferta->salario, 2) }} USD</p>
                         <p class="text-gray-600 mt-2"><strong>Ubicación:</strong> {{ $oferta->ubicacion }}</p>
                         <p class="text-gray-600 mt-2"><strong>Empresa:</strong> {{ $oferta->creador->name }}</p>
                         <p class="text-gray-600 mt-2">
