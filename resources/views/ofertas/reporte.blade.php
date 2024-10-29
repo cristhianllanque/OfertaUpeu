@@ -144,8 +144,14 @@
     <h2>Conclusión</h2>
     <p>Este es un resumen de las oportunidades y el interés generado por la oferta publicada.</p>
 
+
+
     <div class="footer">
-        <p><strong>Fecha de generación del reporte:</strong> {{ now()->format('d/m/Y H:i') }}</p>
+        <p><strong>Fecha de generación del reporte:</strong></p>
+        <p>{{ now()->timezone('America/Lima')->format('d/m/Y') }}</p> <!-- Fecha en formato día/mes/año -->
+        <p>{{ now()->timezone('America/Lima')->format('h:i:s A') }}</> <!-- Hora en formato 12h con AM/PM -->
     </div>
+
+
 </body>
 </html>

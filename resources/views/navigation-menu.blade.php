@@ -54,6 +54,8 @@
                 </div>
                 @endrole
 
+                
+
                 @role('empresa')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                      <x-nav-link href="{{ route('gestionar-postulaciones') }}" :active="request()->routeIs('gestionar-postulaciones')">
