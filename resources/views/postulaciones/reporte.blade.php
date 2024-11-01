@@ -31,7 +31,7 @@
 <body>
     <h1>Reporte de Postulaciones</h1>
     <p>Usuario: {{ auth()->user()->name }}</p>
-    <p>Fecha: {{ now()->format('d/m/Y H:i') }}</p>
+    <p>Fecha: {{ now()->setTimezone('America/Lima')->format('d/m/Y H:i') }}</p> <!-- Hora ajustada a Lima -->
 
     <table>
         <thead>
@@ -54,7 +54,7 @@
                     <td>{{ $postulacion->oferta->ubicacion }}</td>
                     <td>{{ $postulacion->oferta->fecha_vencimiento }}</td>
                     <td>{{ ucfirst($postulacion->estado) }}</td>
-                    <td>{{ $postulacion->created_at->format('d/m/Y H:i') }}</td> <!-- Fecha de postulación -->
+                    <td>{{ $postulacion->created_at->setTimezone('America/Lima')->format('d/m/Y H:i') }}</td> <!-- Fecha de postulación ajustada a Lima -->
                 </tr>
             @endforeach
         </tbody>

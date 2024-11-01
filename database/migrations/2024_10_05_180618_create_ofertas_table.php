@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('descripcion');
-            $table->boolean('part_time')->default(false);
-            $table->boolean('full_time')->default(false);
+
             $table->decimal('salario', 8, 2);
             $table->string('ubicacion');
+            // Nuevas columnas para programar la oferta
+            $table->dateTime('fecha_hora_inicio')->nullable(); // Permite que el campo sea opcional
+            $table->dateTime('fecha_hora_fin')->nullable(); // Permite que el campo sea opcional
+
             $table->date('fecha_vencimiento');
             $table->timestamps();
         });

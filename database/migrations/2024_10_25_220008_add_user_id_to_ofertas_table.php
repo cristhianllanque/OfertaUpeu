@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ofertas', function (Blueprint $table) {
-            // Agregar la columna user_id y establecerla como clave foránea
-            $table->foreignId('user_id')->after('id')->constrained()->onDelete('cascade');
+            // Verificar si la columna 'user_id' no existe antes de intentar añadirla
+            if (!Schema::hasColumn('ofertas', 'user_id')) {
+                // Agregar la columna user_id y establecerla como clave foránea
+                $table->foreignId('user_id')->after('id')->constrained()->onDelete('cascade');
+            }
         });
     }
 
@@ -23,9 +26,12 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('ofertas', function (Blueprint $table) {
-            // Eliminar la clave foránea y la columna user_id
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+            // Verificar si la columna existe antes de eliminarla
+            if (Schema::hasColumn('ofertas', 'user_id')) {
+                // Eliminar la clave foránea y la columna user_id
+                $table->dropForeign(['user_id']);
+                $table->dropColumn('user_id');
+            }
         });
     }
 };

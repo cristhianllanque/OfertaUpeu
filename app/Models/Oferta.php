@@ -14,8 +14,16 @@ class Oferta extends Model
         'descripcion',
         'salario',
         'ubicacion',
+        'fecha_hora_inicio',  // Nuevo campo
+        'fecha_hora_fin',     // Nuevo campo
         'fecha_vencimiento',
         'user_id',
+    ];
+
+    // Definir que estos campos deben ser tratados como fechas
+    protected $casts = [
+        'fecha_hora_inicio' => 'datetime',
+        'fecha_hora_fin' => 'datetime',
     ];
 
     // Relación con el modelo User (Creador de la oferta)
